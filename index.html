@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAIRG ATHLIC SPORT — Premium Sportswear & Hosiery</title>
+<meta name="description" content="BAIRG ATHLIC SPORT — premium sportswear & hosiery. T-shirts, trousers, pajamas, hoodies, shorts, socks, caps, sweatshirts and polo shirts. Wear Your Strength. Define Your Style.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+:root{
+  --bg:#05070d; --bg2:#0a1020; --navy:#0d1526; --panel:rgba(13,21,38,.72);
+  --lime:#ffc933; --lime2:#d7942f; --white:#f4f7f2; --muted:#8b96ab;
+  --glass:rgba(255,255,255,.06); --line:rgba(255,201,51,.18);
+  --f-head:'Orbitron',sans-serif; --f-sub:'Rajdhani',sans-serif; --f-body:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--f-body);overflow-x:hidden}
+::selection{background:var(--lime);color:#05070d}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:#070b14}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--lime),#1c2a10);border-radius:8px}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font-family:inherit}
+img{max-width:100%;display:block}
+
+/* ============ LOADER ============ */
+#loader{position:fixed;inset:0;background:radial-gradient(circle at 50% 40%,#0d1830 0%,#04060c 65%);z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:opacity .8s,visibility .8s}
+#loader.done{opacity:0;visibility:hidden}
+.loader-rings{position:relative;width:150px;height:150px;display:flex;align-items:center;justify-content:center}
+.loader-rings .ring{position:absolute;inset:0;border-radius:50%;border:1px solid transparent}
+.loader-rings .r1{border-top-color:var(--lime);animation:spin 1.2s linear infinite}
+.loader-rings .r2{inset:14px;border-right-color:rgba(255,201,51,.5);animation:spin 1.8s linear infinite reverse}
+.loader-rings .r3{inset:28px;border-bottom-color:rgba(255,255,255,.25);animation:spin 2.6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-logo-img{max-width:96px;max-height:96px;object-fit:contain;filter:drop-shadow(0 0 18px rgba(255,201,51,.45))}
+.loader-word{font-family:var(--f-head);font-weight:900;font-size:1rem;letter-spacing:.42em;color:var(--white);text-align:center}
+.loader-word span{color:var(--lime)}
+.loader-bar{width:220px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+.loader-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--lime),#fff);box-shadow:0 0 12px var(--lime)}
+.loader-tag{font-family:var(--f-sub);letter-spacing:.35em;font-size:.68rem;color:var(--muted);text-transform:uppercase}
+
+/* logo block */
+.logo-wrap{display:flex;align-items:center;gap:12px}
+.logo-img{height:44px;width:auto;object-fit:contain;filter:drop-shadow(0 0 10px rgba(255,201,51,.35))}
+.logo-fallback{display:none;flex-direction:column;line-height:1}
+.logo-fallback .lf1{font-family:var(--f-head);font-weight:900;font-size:1.02rem;letter-spacing:.18em}
+.logo-fallback .lf1 b{color:var(--lime)}
+.logo-fallback .lf2{font-family:var(--f-sub);font-size:.6rem;letter-spacing:.5em;color:var(--muted);margin-top:4px}
+
+/* ============ NAVBAR ============ */
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:18px 4vw;display:flex;align-items:center;justify-content:space-between;transition:.4s;background:linear-gradient(180deg,rgba(4,6,12,.85),rgba(4,6,12,0))}
+#nav.scrolled{background:rgba(5,8,15,.88);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,201,51,.12);padding:12px 4vw;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.nav-links{display:flex;gap:34px;align-items:center}
+.nav-links a{font-family:var(--f-sub);font-weight:600;font-size:.86rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);position:relative;padding:6px 0;transition:.3s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--lime);box-shadow:0 0 10px var(--lime);transition:.35s}
+.nav-links a:hover,.nav-links a.active{color:var(--white)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-icons{display:flex;gap:6px;align-items:center}
+.icon-btn{position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:var(--muted);transition:.3s;border:1px solid transparent}
+.icon-btn:hover{color:var(--lime);border-color:var(--line);background:var(--glass);box-shadow:0 0 16px rgba(255,201,51,.15)}
+.icon-btn svg{width:19px;height:19px}
+.cart-count{position:absolute;top:2px;right:0;min-width:16px;height:16px;padding:0 4px;border-radius:9px;background:var(--lime);color:#05070d;font-size:.62rem;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--f-sub)}
+.wa-float-nav{color:#25D366}
+#hamburger{display:none;flex-direction:column;gap:5px;width:40px;height:40px;align-items:center;justify-content:center}
+#hamburger span{width:22px;height:2px;background:var(--white);transition:.35s;border-radius:2px}
+#hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);background:var(--lime)}
+#hamburger.open span:nth-child(2){opacity:0}
+#hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);background:var(--lime)}
+#mobileMenu{position:fixed;inset:0;background:rgba(4,6,12,.97);backdrop-filter:blur(20px);z-index:490;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;opacity:0;visibility:hidden;transition:.45s}
+#mobileMenu.open{opacity:1;visibility:visible}
+#mobileMenu a{font-family:var(--f-head);font-size:1.3rem;letter-spacing:.3em;padding:12px;color:var(--muted);transition:.3s}
+#mobileMenu a:hover{color:var(--lime);letter-spacing:.4em}
+#mobileMenu .mm-social{display:flex;gap:22px;margin-top:22px}
+#mobileMenu .mm-social a{padding:0}
+#mobileMenu .mm-social svg{width:26px;height:26px}
+
+/* ============ HERO ============ */
+#hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:radial-gradient(ellipse at 70% 30%,#101d3a 0%,#05070d 60%)}
+#heroCanvas{position:absolute;inset:0;z-index:1}
+.hero-grid-bg{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(255,201,51,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,201,51,.04) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
+.hero-content{position:relative;z-index:5;padding:140px 6vw 80px;max-width:900px}
+.hero-eyebrow{font-family:var(--f-sub);letter-spacing:.5em;font-size:.75rem;color:var(--lime);text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:14px}
+.hero-eyebrow::before{content:"";width:44px;height:1px;background:var(--lime);box-shadow:0 0 8px var(--lime)}
+.hero-title{font-family:var(--f-head);font-weight:900;font-size:clamp(2.4rem,6.5vw,5.2rem);line-height:1.04;letter-spacing:.02em}
+.hero-title .neon{color:var(--lime);text-shadow:0 0 30px rgba(255,201,51,.55),0 0 80px rgba(255,201,51,.25)}
+.hero-sub{font-family:var(--f-sub);font-size:clamp(1rem,2vw,1.35rem);letter-spacing:.3em;color:var(--muted);margin-top:18px;text-transform:uppercase}
+.hero-tagline{margin-top:14px;font-size:.95rem;color:#aab4c8;max-width:480px;line-height:1.7}
+.hero-btns{display:flex;gap:18px;margin-top:42px;flex-wrap:wrap}
+.btn{position:relative;display:inline-flex;align-items:center;gap:12px;padding:16px 36px;font-family:var(--f-sub);font-weight:700;font-size:.85rem;letter-spacing:.28em;text-transform:uppercase;border-radius:4px;overflow:hidden;transition:.35s}
+.btn-primary{background:var(--lime);color:#05070d;box-shadow:0 0 30px rgba(255,201,51,.35)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 44px rgba(255,201,51,.5)}
+.btn-ghost{border:1px solid rgba(255,255,255,.3);color:var(--white);background:var(--glass);backdrop-filter:blur(8px)}
+.btn-ghost:hover{border-color:var(--lime);color:var(--lime);box-shadow:0 0 24px rgba(255,201,51,.2);transform:translateY(-3px)}
+.hero-hint{position:absolute;right:6vw;bottom:8vh;z-index:6;font-family:var(--f-sub);font-size:.68rem;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.hero-hint .drag-ic{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,201,51,.35)}50%{box-shadow:0 0 0 12px rgba(255,201,51,0)}}
+.scroll-cue{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:6;width:24px;height:40px;border:1px solid rgba(255,255,255,.3);border-radius:14px;display:flex;justify-content:center;padding-top:7px}
+.scroll-cue i{width:3px;height:8px;border-radius:3px;background:var(--lime);animation:cue 1.6s infinite}
+@keyframes cue{0%{transform:translateY(0);opacity:1}70%{transform:translateY(14px);opacity:0}100%{opacity:0}}
+
+/* ============ SECTIONS ============ */
+section{position:relative}
+.wrap{max-width:1280px;margin:0 auto;padding:110px 5vw}
+.sec-head{margin-bottom:56px}
+.sec-eyebrow{font-family:var(--f-sub);letter-spacing:.45em;font-size:.72rem;color:var(--lime);text-transform:uppercase;margin-bottom:14px}
+.sec-title{font-family:var(--f-head);font-weight:900;font-size:clamp(1.7rem,3.6vw,2.8rem);letter-spacing:.03em}
+.sec-title .neon{color:var(--lime)}
+.sec-line{width:64px;height:2px;background:linear-gradient(90deg,var(--lime),transparent);margin-top:18px;box-shadow:0 0 12px rgba(255,201,51,.5)}
+
+/* marquee */
+.marquee{overflow:hidden;border-top:1px solid rgba(255,201,51,.14);border-bottom:1px solid rgba(255,201,51,.14);background:rgba(255,201,51,.03);padding:16px 0}
+.marquee-track{display:flex;gap:56px;width:max-content;animation:mq 26s linear infinite}
+.marquee-track span{font-family:var(--f-head);font-size:.8rem;letter-spacing:.4em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+.marquee-track span b{color:var(--lime);margin:0 20px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* category cards */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:22px;perspective:1200px}
+.cat-card{position:relative;border-radius:14px;overflow:hidden;cursor:pointer;border:1px solid rgba(255,255,255,.07);background:var(--panel);transition:.45s;transform-style:preserve-3d}
+.cat-card:hover{border-color:var(--line);box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 30px rgba(255,201,51,.12);transform:translateY(-8px)}
+.cat-card .cat-art{height:170px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 60%,rgba(255,201,51,.1),transparent 70%),linear-gradient(160deg,#0e1830,#070b16);position:relative;overflow:hidden}
+.cat-card .cat-art svg{width:88px;height:88px;filter:drop-shadow(0 0 14px rgba(255,201,51,.35));transition:.5s}
+.cat-card:hover .cat-art svg{transform:scale(1.14) rotate(-4deg)}
+.cat-card .cat-art::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.09) 50%,transparent 70%);transform:translateX(-110%);transition:.7s}
+.cat-card:hover .cat-art::after{transform:translateX(110%)}
+.cat-info{padding:18px 20px;display:flex;align-items:center;justify-content:space-between}
+.cat-info h3{font-family:var(--f-sub);font-weight:700;font-size:1.02rem;letter-spacing:.14em;text-transform:uppercase}
+.cat-info small{display:block;color:var(--muted);font-size:.7rem;letter-spacing:.2em;margin-top:4px;text-transform:uppercase}
+.cat-arrow{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--lime);transition:.35s;flex:none}
+.cat-card:hover .cat-arrow{background:var(--lime);color:#05070d;transform:rotate(-45deg)}
+
+/* product cards */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:26px;perspective:1200px}
+.p-card{position:relative;border-radius:16px;overflow:hidden;background:var(--panel);border:1px solid rgba(255,255,255,.07);transition:.45s;cursor:pointer;transform-style:preserve-3d}
+.p-card:hover{transform:translateY(-10px);border-color:var(--line);box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 34px rgba(255,201,51,.14)}
+.p-img{position:relative;aspect-ratio:1/1.05;overflow:hidden;background:#070b16}
+.p-img img{width:100%;height:100%;object-fit:cover;transition:.7s cubic-bezier(.2,.8,.2,1);will-change:transform}
+.p-card:hover .p-img img{transform:scale(1.09) rotate(1deg)!important}
+.p-card::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.09) 50%,transparent 70%);transform:translateX(-120%);transition:transform .75s ease;pointer-events:none}
+.p-card:hover::after{transform:translateX(120%)}
+.p-float{width:100%;height:100%;will-change:transform}
+.p-badge{position:absolute;top:14px;left:14px;z-index:3;font-family:var(--f-sub);font-size:.62rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:6px 12px;border-radius:3px;background:var(--lime);color:#05070d;box-shadow:0 0 18px rgba(255,201,51,.4)}
+.p-actions{position:absolute;top:14px;right:14px;z-index:3;display:flex;flex-direction:column;gap:8px;opacity:0;transform:translateX(12px);transition:.4s}
+.p-card:hover .p-actions{opacity:1;transform:translateX(0)}
+.p-act{width:38px;height:38px;border-radius:50%;background:rgba(5,8,15,.8);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:var(--white);transition:.3s}
+.p-act:hover{background:var(--lime);color:#05070d;border-color:var(--lime)}
+.p-act svg{width:17px;height:17px}
+.p-act.wished{color:var(--lime);border-color:var(--lime)}
+.p-info{position:relative;z-index:3;padding:18px}
+.p-cat{font-family:var(--f-sub);font-size:.64rem;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+.p-name{font-family:var(--f-sub);font-weight:700;font-size:1.05rem;letter-spacing:.06em;margin:6px 0 10px}
+.p-meta{display:flex;align-items:center;justify-content:space-between}
+.p-price{font-family:var(--f-head);font-size:.95rem;color:var(--lime)}
+.p-dots{display:flex;gap:5px}
+.p-dots i{width:12px;height:12px;border-radius:50%;border:1px solid rgba(255,255,255,.35)}
+.add-btn{margin-top:14px;width:100%;padding:12px;font-family:var(--f-sub);font-weight:700;font-size:.74rem;letter-spacing:.26em;text-transform:uppercase;border:1px solid var(--line);border-radius:6px;color:var(--lime);transition:.3s;background:rgba(255,201,51,.05)}
+.add-btn:hover{background:var(--lime);color:#05070d;box-shadow:0 0 24px rgba(255,201,51,.35)}
+.trust-card,.cat-card,.p-card{will-change:transform,opacity}
+
+/* shop toolbar */
+.shop-bar{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:40px}
+.chip-row{display:flex;gap:10px;flex-wrap:wrap}
+.chip{padding:9px 20px;border-radius:30px;border:1px solid rgba(255,255,255,.14);font-family:var(--f-sub);font-weight:600;font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);transition:.3s}
+.chip:hover{color:var(--white);border-color:var(--line)}
+.chip.active{background:var(--lime);color:#05070d;border-color:var(--lime);box-shadow:0 0 20px rgba(255,201,51,.3)}
+.sort-sel{background:var(--panel);border:1px solid rgba(255,255,255,.14);color:var(--white);padding:10px 16px;border-radius:8px;font-family:var(--f-sub);letter-spacing:.1em;font-size:.82rem;outline:none}
+.sort-sel:focus{border-color:var(--lime)}
+
+/* about */
+#about{background:linear-gradient(180deg,var(--bg) 0%,#080d1a 50%,var(--bg) 100%)}
+.about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center}
+.about-visual{position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(255,201,51,.15);min-height:420px;background:radial-gradient(circle at 30% 30%,rgba(255,201,51,.12),transparent 60%),linear-gradient(150deg,#0e1830,#05070d);display:flex;align-items:center;justify-content:center;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+.about-visual .big-logo{max-width:70%;max-height:70%;object-fit:contain;filter:drop-shadow(0 0 40px rgba(255,201,51,.35));animation:floaty 5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.about-visual .orbit-ring{position:absolute;border:1px dashed rgba(255,201,51,.25);border-radius:50%;animation:spin 24s linear infinite}
+.about-copy p{color:#aab4c8;line-height:1.85;margin:18px 0;font-size:.95rem}
+.about-stats{display:flex;gap:36px;margin-top:34px;flex-wrap:wrap}
+.about-stats div b{font-family:var(--f-head);font-size:1.6rem;color:var(--lime);display:block}
+.about-stats div span{font-family:var(--f-sub);font-size:.72rem;letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
+
+/* trust / contact */
+.trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px;perspective:1200px}
+.trust-card{padding:36px 28px;border-radius:16px;background:var(--panel);border:1px solid rgba(255,255,255,.08);text-align:center;transition:.4s;position:relative;overflow:hidden}
+.trust-card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--lime),transparent);opacity:0;transition:.4s}
+.trust-card:hover{transform:translateY(-8px);border-color:var(--line);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.trust-card:hover::before{opacity:1}
+.trust-ic{width:66px;height:66px;margin:0 auto 20px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;background:rgba(255,201,51,.06)}
+.trust-ic svg{width:28px;height:28px}
+.trust-card h4{font-family:var(--f-sub);letter-spacing:.2em;font-size:1rem;text-transform:uppercase;margin-bottom:12px}
+.trust-card p{color:var(--muted);font-size:.86rem;line-height:1.7}
+.contact-cta{margin-top:50px;text-align:center}
+.contact-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+.contact-pill{display:inline-flex;align-items:center;gap:12px;padding:14px 26px;border-radius:40px;border:1px solid rgba(255,255,255,.15);background:var(--glass);font-family:var(--f-sub);letter-spacing:.12em;font-size:.88rem;transition:.35s}
+.contact-pill:hover{border-color:var(--lime);color:var(--lime);transform:translateY(-3px);box-shadow:0 0 26px rgba(255,201,51,.18)}
+.contact-pill svg{width:20px;height:20px}
+.contact-pill.wa:hover{border-color:#25D366;color:#25D366;box-shadow:0 0 26px rgba(37,211,102,.25)}
+.contact-pill.ig:hover{border-color:#E1306C;color:#E1306C;box-shadow:0 0 26px rgba(225,48,108,.25)}
+
+/* footer */
+footer{background:#04060c;border-top:1px solid rgba(255,201,51,.12);padding:70px 5vw 30px}
+.foot-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:44px}
+.foot-grid h5{font-family:var(--f-sub);letter-spacing:.3em;font-size:.78rem;text-transform:uppercase;color:var(--lime);margin-bottom:20px}
+.foot-grid a{display:block;color:var(--muted);font-size:.88rem;padding:6px 0;transition:.3s}
+.foot-grid a:hover{color:var(--lime);padding-left:6px}
+.foot-brand p{color:var(--muted);font-size:.86rem;line-height:1.75;margin:16px 0 22px;max-width:300px}
+.foot-social{display:flex;gap:12px}
+.foot-social a{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:.35s;padding:0}
+.foot-social a:hover{transform:translateY(-4px) rotate(8deg)}
+.foot-social a.wa:hover{border-color:#25D366;color:#25D366;box-shadow:0 0 20px rgba(37,211,102,.3)}
+.foot-social a.ig:hover{border-color:#E1306C;color:#E1306C;box-shadow:0 0 20px rgba(225,48,108,.3)}
+.foot-social a.em:hover{border-color:var(--lime);color:var(--lime);box-shadow:0 0 20px rgba(255,201,51,.3)}
+.foot-contact{display:flex;gap:12px;padding-top:4px}
+.foot-contact a{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:.35s}
+.foot-contact a:hover{transform:translateY(-4px) rotate(8deg)}
+.foot-contact a.wa:hover{border-color:#25D366;color:#25D366;box-shadow:0 0 20px rgba(37,211,102,.3)}
+.foot-contact a.ig:hover{border-color:#E1306C;color:#E1306C;box-shadow:0 0 20px rgba(225,48,108,.3)}
+.foot-contact a.em:hover{border-color:var(--lime);color:var(--lime);box-shadow:0 0 20px rgba(255,201,51,.3)}
+.foot-bottom{max-width:1280px;margin:50px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.78rem;letter-spacing:.1em}
+.foot-bottom b{color:var(--white);font-family:var(--f-sub);letter-spacing:.2em}
+
+/* drawers / modals */
+.overlay{position:fixed;inset:0;background:rgba(3,5,10,.72);backdrop-filter:blur(6px);z-index:600;opacity:0;visibility:hidden;transition:.4s}
+.overlay.show{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(430px,92vw);background:#0a0f1c;border-left:1px solid rgba(255,201,51,.15);z-index:700;transform:translateX(105%);transition:.5s cubic-bezier(.2,.9,.25,1);display:flex;flex-direction:column}
+.drawer.show{transform:translateX(0)}
+.drawer-head{padding:24px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center}
+.drawer-head h3{font-family:var(--f-head);font-size:.95rem;letter-spacing:.25em}
+.drawer-body{flex:1;overflow-y:auto;padding:20px 24px}
+.drawer-foot{padding:22px 24px;border-top:1px solid rgba(255,255,255,.08)}
+.cart-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.cart-item img{width:74px;height:84px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,.08)}
+.ci-info{flex:1}
+.ci-info h4{font-family:var(--f-sub);font-size:.92rem;letter-spacing:.05em}
+.ci-info small{color:var(--muted);font-size:.72rem;display:block;margin:3px 0}
+.ci-price{font-family:var(--f-head);color:var(--lime);font-size:.82rem;margin-top:4px;display:block}
+.qty-row{display:flex;align-items:center;gap:10px;margin-top:8px}
+.qty-btn{width:26px;height:26px;border:1px solid rgba(255,255,255,.2);border-radius:6px;color:var(--white);font-size:.9rem;transition:.25s;display:flex;align-items:center;justify-content:center}
+.qty-btn:hover{border-color:var(--lime);color:var(--lime)}
+.remove-btn{color:var(--muted);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;margin-top:8px;transition:.25s}
+.remove-btn:hover{color:#ff5d5d}
+.subtotal-row{display:flex;justify-content:space-between;font-family:var(--f-sub);letter-spacing:.15em;font-size:.95rem;margin-bottom:16px}
+.subtotal-row b{font-family:var(--f-head);color:var(--lime);font-size:1.1rem}
+.checkout-btn{width:100%;padding:16px;background:var(--lime);color:#05070d;font-family:var(--f-sub);font-weight:700;letter-spacing:.28em;text-transform:uppercase;font-size:.82rem;border-radius:6px;transition:.3s}
+.checkout-btn:hover{box-shadow:0 0 30px rgba(255,201,51,.45);transform:translateY(-2px)}
+.empty-note{color:var(--muted);text-align:center;padding:60px 0;font-family:var(--f-sub);letter-spacing:.2em}
+
+.modal{position:fixed;inset:0;z-index:750;display:flex;align-items:center;justify-content:center;padding:4vw;opacity:0;visibility:hidden;transition:.4s}
+.modal.show{opacity:1;visibility:visible}
+.modal-box{width:min(920px,100%);max-height:90vh;overflow-y:auto;background:#0a0f1c;border:1px solid rgba(255,201,51,.18);border-radius:20px;position:relative;transform:translateY(26px) scale(.97);transition:.45s;box-shadow:0 40px 120px rgba(0,0,0,.7)}
+.modal.show .modal-box{transform:translateY(0) scale(1)}
+.modal-close{position:absolute;top:16px;right:16px;z-index:5;width:38px;height:38px;border-radius:50%;background:rgba(5,8,15,.7);border:1px solid rgba(255,255,255,.15);color:var(--white);display:flex;align-items:center;justify-content:center;transition:.3s}
+.modal-close:hover{background:var(--lime);color:#05070d;transform:rotate(90deg)}
+.qv-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.qv-img{background:#070b16;border-radius:20px 0 0 20px;overflow:hidden}
+.qv-img img{width:100%;height:100%;object-fit:cover;min-height:420px}
+.qv-info{padding:44px 38px}
+.qv-info h3{font-family:var(--f-head);font-size:1.25rem;margin:8px 0 14px;letter-spacing:.04em}
+.qv-price{font-family:var(--f-head);color:var(--lime);font-size:1.3rem;margin-bottom:20px}
+.qv-desc{color:var(--muted);font-size:.88rem;line-height:1.75;margin-bottom:22px}
+.opt-label{font-family:var(--f-sub);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin:16px 0 10px;display:block}
+.color-opts{display:flex;gap:10px}
+.color-dot{width:32px;height:32px;border-radius:50%;border:2px solid transparent;outline:1px solid rgba(255,255,255,.2);cursor:pointer;transition:.25s}
+.color-dot.sel{border-color:var(--lime);outline-color:var(--lime);transform:scale(1.12)}
+.size-opts{display:flex;gap:10px;flex-wrap:wrap}
+.size-chip{min-width:44px;padding:9px 12px;border:1px solid rgba(255,255,255,.18);border-radius:8px;font-family:var(--f-sub);font-weight:600;font-size:.82rem;letter-spacing:.08em;text-align:center;cursor:pointer;transition:.25s}
+.size-chip.sel{background:var(--lime);color:#05070d;border-color:var(--lime)}
+.modal-actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+
+/* search overlay */
+#searchOverlay{position:fixed;inset:0;z-index:800;background:rgba(4,6,12,.96);backdrop-filter:blur(16px);display:flex;flex-direction:column;align-items:center;padding:14vh 6vw 6vh;opacity:0;visibility:hidden;transition:.4s}
+#searchOverlay.show{opacity:1;visibility:visible}
+#searchInput{width:min(680px,100%);background:transparent;border:none;border-bottom:2px solid rgba(255,201,51,.35);color:var(--white);font-family:var(--f-head);font-size:clamp(1.2rem,3vw,2rem);padding:14px 4px;outline:none;text-align:center;letter-spacing:.06em}
+#searchInput::placeholder{color:rgba(255,255,255,.25)}
+#searchResults{width:min(680px,100%);margin-top:34px;overflow-y:auto;max-height:52vh}
+.sr-item{display:flex;gap:16px;align-items:center;padding:12px;border-radius:12px;cursor:pointer;transition:.25s;border:1px solid transparent}
+.sr-item:hover{background:var(--glass);border-color:var(--line)}
+.sr-item img{width:56px;height:64px;object-fit:cover;border-radius:8px}
+.sr-item h4{font-family:var(--f-sub);font-size:.95rem}
+.sr-item span{color:var(--lime);font-family:var(--f-head);font-size:.78rem}
+.search-close{position:absolute;top:26px;right:30px;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.2);color:var(--white);display:flex;align-items:center;justify-content:center;transition:.3s}
+.search-close:hover{border-color:var(--lime);color:var(--lime);transform:rotate(90deg)}
+
+/* product detail page */
+.pd-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:start}
+.pd-stage{position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(255,201,51,.15);background:radial-gradient(circle at 50% 45%,rgba(255,201,51,.08),transparent 65%),#070b16;min-height:520px;cursor:grab}
+.pd-stage:active{cursor:grabbing}
+#pdCanvas{position:absolute;inset:0;width:100%;height:100%}
+.pd-drag-hint{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);font-family:var(--f-sub);font-size:.64rem;letter-spacing:.32em;color:var(--muted);text-transform:uppercase;background:rgba(5,8,15,.6);padding:8px 18px;border-radius:20px;border:1px solid rgba(255,255,255,.1);pointer-events:none}
+.pd-info h1{font-family:var(--f-head);font-size:clamp(1.4rem,3vw,2.1rem);margin:10px 0 16px;letter-spacing:.03em}
+.pd-price{font-family:var(--f-head);color:var(--lime);font-size:1.5rem;margin-bottom:22px}
+.pd-desc{color:#aab4c8;line-height:1.85;font-size:.94rem;margin-bottom:8px}
+.pd-back{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-family:var(--f-sub);letter-spacing:.2em;font-size:.74rem;text-transform:uppercase;transition:.3s;margin-bottom:26px}
+.pd-back:hover{color:var(--lime)}
+
+/* checkout */
+.co-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:50px;align-items:start}
+.field{margin-bottom:18px}
+.field label{display:block;font-family:var(--f-sub);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.field input,.field textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);border-radius:10px;color:var(--white);padding:14px 16px;font-size:.92rem;outline:none;transition:.3s}
+.field input:focus,.field textarea:focus{border-color:var(--lime);box-shadow:0 0 18px rgba(255,201,51,.12)}
+.field textarea{resize:vertical;min-height:90px}
+.co-summary{background:var(--panel);border:1px solid rgba(255,201,51,.14);border-radius:16px;padding:28px}
+.co-summary h4{font-family:var(--f-head);letter-spacing:.2em;font-size:.9rem;margin-bottom:18px}
+.co-line{display:flex;justify-content:space-between;padding:8px 0;color:var(--muted);font-size:.88rem}
+.co-line.total{border-top:1px solid rgba(255,255,255,.1);margin-top:10px;padding-top:16px;color:var(--white);font-family:var(--f-sub);letter-spacing:.12em;font-size:1rem}
+.co-line.total b{color:var(--lime);font-family:var(--f-head);font-size:1.15rem}
+.co-note{font-size:.78rem;color:var(--muted);margin-top:18px;line-height:1.7;padding:14px;border:1px dashed rgba(255,201,51,.25);border-radius:10px}
+.co-wa-btn{width:100%;margin-top:20px;padding:17px;background:#25D366;color:#04120a;font-family:var(--f-sub);font-weight:700;letter-spacing:.24em;text-transform:uppercase;font-size:.82rem;border-radius:8px;transition:.3s;display:flex;align-items:center;justify-content:center;gap:10px}
+.co-wa-btn:hover{box-shadow:0 0 34px rgba(37,211,102,.45);transform:translateY(-2px)}
+.co-wa-btn svg{width:19px;height:19px}
+
+/* confirmation */
+.confirm-box{max-width:640px;margin:0 auto;text-align:center;padding:60px 30px;border:1px solid rgba(255,201,51,.2);border-radius:22px;background:var(--panel)}
+.confirm-ic{width:88px;height:88px;margin:0 auto 26px;border-radius:50%;border:2px solid var(--lime);display:flex;align-items:center;justify-content:center;background:rgba(255,201,51,.07);box-shadow:0 0 40px rgba(255,201,51,.25);animation:popIn .6s cubic-bezier(.2,1.4,.4,1)}
+@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+.confirm-box h2{font-family:var(--f-head);letter-spacing:.06em;margin-bottom:14px}
+.confirm-box p{color:var(--muted);line-height:1.8;font-size:.92rem}
+.confirm-box .btn{margin-top:28px}
+
+/* toasts */
+#toasts{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:900;display:flex;flex-direction:column;gap:10px;align-items:center}
+.toast{background:#0d1526;border:1px solid var(--lime);color:var(--white);padding:13px 26px;border-radius:40px;font-family:var(--f-sub);letter-spacing:.14em;font-size:.82rem;box-shadow:0 10px 40px rgba(0,0,0,.6),0 0 24px rgba(255,201,51,.2);animation:toastIn .4s cubic-bezier(.2,1.2,.4,1)}
+@keyframes toastIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* whatsapp floating button */
+#waFloat{position:fixed;bottom:24px;right:24px;z-index:550;width:58px;height:58px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(37,211,102,.45);transition:.35s;animation:pulse 2.4s infinite}
+#waFloat:hover{transform:scale(1.12) rotate(8deg)}
+#waFloat svg{width:30px;height:30px;fill:#fff}
+
+/* pages */
+.page{min-height:100vh;padding-top:110px}
+.page-head{padding:40px 5vw 10px;max-width:1280px;margin:0 auto}
+.reveal{opacity:0;transform:translateY(36px)}
+
+@media (prefers-reduced-motion:reduce){
+  .marquee-track,.loader-rings .ring,.about-visual .big-logo,.about-visual .orbit-ring,#waFloat,.scroll-cue i,.hero-hint .drag-ic{animation:none!important}
+}
+@media(max-width:1024px){
+  .about-grid,.pd-grid,.co-grid,.qv-grid{grid-template-columns:1fr}
+  .qv-img{border-radius:20px 20px 0 0}
+  .qv-img img{min-height:300px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:860px){
+  .nav-links{display:none}
+  #hamburger{display:flex}
+  .hero-hint{display:none}
+  .wrap{padding:80px 5vw}
+}
+@media(max-width:560px){
+  .foot-grid{grid-template-columns:1fr}
+  .hero-btns .btn{width:100%;justify-content:center}
+  .cat-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-rings">
+    <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+    <img class="loader-logo-img" src="logo.png" alt="BAIRG ATHLIC SPORT Logo" onerror="this.style.display='none'">
+  </div>
+  <div class="loader-word">BAIRG <span>ATHLIC</span> SPORT</div>
+  <div class="loader-bar"><i id="loaderFill"></i></div>
+  <div class="loader-tag">Premium Sportswear &amp; Hosiery</div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="nav">
+  <a href="#/home" class="logo-wrap" aria-label="BAIRG ATHLIC SPORT Home">
+    <img class="logo-img" src="logo.png" alt="BAIRG ATHLIC SPORT" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <span class="logo-fallback"><span class="lf1">BAIRG <b>ATHLIC</b> SPORT</span><span class="lf2">SPORTSWEAR &amp; HOSIERY</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="#/home" data-nav="home" data-scroll="hero">Home</a>
+    <a href="#/home" data-nav="shop" data-scroll="products">Products</a>
+    <a href="#/home" data-nav="men" data-scroll="products">Men</a>
+    <a href="#/home" data-nav="collections" data-scroll="categories">Collections</a>
+    <a href="#/home" data-nav="about" data-scroll="about">About Us</a>
+    <a href="#/home" data-nav="contact" data-scroll="contact">Contact</a>
+  </div>
+  <div class="nav-icons">
+    <a class="icon-btn wa-float-nav" href="https://wa.me/923446121833?text=Hi!%20I%20am%20interested%20in%20BAIRG%20ATHLIC%20SPORT%20products.%20Please%20share%20your%20product%20catalogue%20and%20prices." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.18-1.42-.07-.12-.27-.2-.57-.35m-5.48 7.45h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88a9.83 9.83 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.44c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.16-3.48-8.41z"/></svg>
+    </a>
+    <a class="icon-btn" href="https://www.instagram.com/bairg.athlic.sport?cplk=Z2RhZms3NmFvMW0z" target="_blank" rel="noopener" aria-label="Instagram Profile" style="color:#E1306C">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <button class="icon-btn" id="searchBtn" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
+    <button class="icon-btn" id="wishBtn" aria-label="Wishlist">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+    </button>
+    <button class="icon-btn" id="cartBtn" aria-label="Shopping Cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1.6"/><circle cx="19" cy="21" r="1.6"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+  <button id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu">
+  <a href="#/home" data-scroll="hero">Home</a>
+  <a href="#/home" data-scroll="products">Products</a>
+  <a href="#/home" data-scroll="products">Men</a>
+  <a href="#/home" data-scroll="categories">Collections</a>
+  <a href="#/home" data-scroll="about">About Us</a>
+  <a href="#/home" data-scroll="contact">Contact</a>
+  <div class="mm-social">
+    <a href="https://wa.me/923446121833?text=Hi!%20I%20am%20interested%20in%20BAIRG%20ATHLIC%20SPORT%20products.%20Please%20share%20your%20product%20catalogue%20and%20prices." target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" style="color:#25D366"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.18-1.42-.07-.12-.27-.2-.57-.35m-5.48 7.45h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88a9.83 9.83 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.44c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.16-3.48-8.41z"/></svg></a>
+    <a href="https://www.instagram.com/bairg.athlic.sport?cplk=Z2RhZms3NmFvMW0z" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="#E1306C" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="#E1306C" stroke="none"/></svg></a>
+    <a href="mailto:bairgathlicsport@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--lime)"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a>
+  </div>
+</div>
+
+<main id="app"></main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#/home" class="logo-wrap">
+        <img class="logo-img" src="logo.png" alt="BAIRG ATHLIC SPORT" style="height:52px" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-fallback"><span class="lf1">BAIRG <b>ATHLIC</b> SPORT</span><span class="lf2">SPORTSWEAR &amp; HOSIERY</span></span>
+      </a>
+      <p>Premium sportswear &amp; hosiery crafted for comfort, style and quality. Wear Your Strength. Define Your Style.</p>
+      <div class="foot-social">
+        <a class="wa" href="https://wa.me/923446121833?text=Hi!%20I%20am%20interested%20in%20BAIRG%20ATHLIC%20SPORT%20products.%20Please%20share%20your%20product%20catalogue%20and%20prices." target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" style="width:19px;height:19px"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.18-1.42-.07-.12-.27-.2-.57-.35m-5.48 7.45h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88a9.83 9.83 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.44c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.16-3.48-8.41z"/></svg></a>
+        <a class="ig" href="https://www.instagram.com/bairg.athlic.sport?cplk=Z2RhZms3NmFvMW0z" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:19px;height:19px"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+        <a class="em" href="mailto:bairgathlicsport@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:19px;height:19px"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h5>Quick Links</h5>
+      <a href="#/home" data-scroll="hero">Home</a><a href="#/home" data-scroll="products">Products</a><a href="#/home" data-scroll="categories">Collections</a><a href="#/home" data-scroll="about">About Us</a><a href="#/home" data-scroll="contact">Contact</a>
+    </div>
+    <div>
+      <h5>Categories</h5>
+      <a href="#/category/tshirts">T-Shirts</a><a href="#/category/trousers">Trousers</a><a href="#/category/hoodies">Hoodies</a><a href="#/category/socks">Socks &amp; Hosiery</a><a href="#/category/polos">Polo Shirts</a>
+    </div>
+    <div>
+      <h5>Get In Touch</h5>
+      <div class="foot-contact">
+        <a class="wa" href="https://wa.me/923446121833?text=Hi!%20I%20am%20interested%20in%20BAIRG%20ATHLIC%20SPORT%20products.%20Please%20share%20your%20product%20catalogue%20and%20prices." target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" style="width:19px;height:19px"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.18-1.42-.07-.12-.27-.2-.57-.35m-5.48 7.45h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88a9.83 9.83 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.44c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.16-3.48-8.41z"/></svg></a>
+        <a class="ig" href="https://www.instagram.com/bairg.athlic.sport?cplk=Z2RhZms3NmFvMW0z" target="_blank" rel="noopener" aria-label="Instagram Profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:19px;height:19px"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+        <a class="em" href="mailto:bairgathlicsport@gmail.com" aria-label="Email Us"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:19px;height:19px"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span><b>© BAIRG ATHLIC SPORT.</b> All rights reserved.</span>
+    <span>Wear Your Strength. Define Your Style.</span>
+  </div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="cartDrawer" aria-label="Shopping Cart">
+  <div class="drawer-head"><h3>YOUR CART</h3><button class="icon-btn" id="cartClose" aria-label="Close cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot" id="cartFoot">
+    <div class="subtotal-row"><span>ITEMS IN CART</span><b id="cartSubtotal">0</b></div>
+    <button class="checkout-btn" id="goCheckout">Proceed To Checkout</button>
+  </div>
+</aside>
+
+<!-- WISHLIST DRAWER -->
+<aside class="drawer" id="wishDrawer" aria-label="Wishlist">
+  <div class="drawer-head"><h3>WISHLIST</h3><button class="icon-btn" id="wishClose" aria-label="Close wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  <div class="drawer-body" id="wishBody"></div>
+</aside>
+
+<!-- QUICK VIEW MODAL -->
+<div class="modal" id="qvModal"><div class="modal-box" id="qvBox"></div></div>
+
+<!-- SEARCH OVERLAY -->
+<div id="searchOverlay">
+  <button class="search-close" id="searchClose" aria-label="Close search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <input id="searchInput" type="text" placeholder="SEARCH PRODUCTS..." autocomplete="off">
+  <div id="searchResults"></div>
+</div>
+
+<!-- WHATSAPP FLOAT -->
+<a id="waFloat" href="https://wa.me/923446121833?text=Hi!%20I%20am%20interested%20in%20BAIRG%20ATHLIC%20SPORT%20products.%20Please%20share%20your%20product%20catalogue%20and%20prices." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.18-1.42-.07-.12-.27-.2-.57-.35m-5.48 7.45h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88a9.83 9.83 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.44c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.16-3.48-8.41z"/></svg>
+</a>
+
+<div id="toasts"></div>
+
+<script>
+/* ==================================================================
+   BAIRG ATHLIC SPORT — Premium Sportswear & Hosiery E-Commerce
+   ================================================================== */
+
+gsap.registerPlugin(ScrollTrigger);
+
+const WA_NUMBER = '923446121833';
+const WA_MESSAGE = 'Hi! I am interested in BAIRG ATHLIC SPORT products. Please share your product catalogue and prices.';
+const WA_LINK = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(WA_MESSAGE);
+const IG_LINK = 'https://www.instagram.com/bairg.athlic.sport?cplk=Z2RhZms3NmFvMW0z';
+const EMAIL_LINK = 'mailto:bairgathlicsport@gmail.com';
+
+/* ---------------- CATEGORY SILHOUETTES ---------------- */
+const SHAPES = {
+  tshirt: 'M62 46 L88 32 Q100 42 112 32 L138 46 L156 76 L130 88 L130 162 L70 162 L70 88 L44 76 Z',
+  polo:   'M62 46 L88 32 L100 44 L112 32 L138 46 L156 76 L130 88 L130 162 L70 162 L70 88 L44 76 Z M88 32 L100 50 L112 32',
+  hoodie: 'M72 58 Q70 26 100 26 Q130 26 128 58 L148 66 L160 98 L134 107 L134 164 L66 164 L66 107 L40 98 L52 66 Z M84 40 Q100 30 116 40',
+  sweatshirt: 'M66 52 L90 40 L110 40 L134 52 L152 82 L128 92 L128 162 L72 162 L72 92 L48 82 Z',
+  trousers: 'M72 30 L128 30 L136 98 L130 170 L106 170 L100 96 L94 170 L70 170 L64 98 Z',
+  shorts: 'M66 42 L134 42 L142 104 L108 112 L100 74 L92 112 L58 104 Z',
+  socks: 'M84 28 L116 28 L116 102 Q116 126 96 138 Q74 152 62 138 Q52 126 68 114 L84 104 Z',
+  cap: 'M54 96 Q54 54 100 54 Q146 54 146 96 L146 102 L54 102 Z M42 102 L158 102 Q164 102 161 111 L157 116 L43 116 Z',
+  pajamas:'M68 34 L132 34 L136 46 L143 112 Q145 144 139 166 L113 166 Q109 148 106 118 L100 82 L94 118 Q91 148 87 166 L61 166 Q55 144 57 112 L64 46 Z M64 46 L136 46 M100 46 q-8 10 -16 8 M100 46 q8 10 16 8 M61 154 L87 154 M113 154 L139 154'
+};
+
+const CATEGORIES = [
+  {id:'tshirts',   name:'T-Shirts',    sub:'Essential Tees'},
+  {id:'trousers',  name:'Trousers',    sub:'Track & Casual'},
+  {id:'pajamas',   name:'Pajamas',     sub:'Night Comfort'},
+  {id:'hoodies',   name:'Hoodies',     sub:'Street Warmth'},
+  {id:'shorts',    name:'Shorts',      sub:'Active Wear'},
+  {id:'socks',     name:'Socks',       sub:'Premium Hosiery'},
+  {id:'caps',      name:'Caps',        sub:'Head Style'},
+  {id:'sweatshirts',name:'Sweatshirts',sub:'Cozy Fleece'},
+  {id:'polos',     name:'Polo Shirts', sub:'Smart Casual'}
+];
+
+const SIZES_APPAREL = ['S','M','L','XL','XXL'];
+const SIZES_SOCKS = ['Free Size'];
+const SIZES_CAPS = ['Adjustable'];
+
+function shade(hex, amt){
+  const n = parseInt(hex.slice(1),16);
+  let r = (n>>16)+amt, g = ((n>>8)&255)+amt, b = (n&255)+amt;
+  r=Math.max(0,Math.min(255,r)); g=Math.max(0,Math.min(255,g)); b=Math.max(0,Math.min(255,b));
+  return '#' + ((r<<16)|(g<<8)|b).toString(16).padStart(6,'0');
+}
+
+function productArt(p, angle){
+  const c1 = p.colors[0], c2 = p.colors[1] || shade(c1, 30);
+  const shape = SHAPES[p.shape];
+  const extraPaths = shape.split(' M').slice(1).map(d => `<path d="M${d}" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2"/>`).join('');
+  const stroke = (p.shape==='polo' || p.shape==='hoodie' || p.shape==='pajamas') ? extraPaths : '';
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="630" viewBox="0 0 200 210">
+    <defs>
+      <radialGradient id="bg" cx="50%" cy="42%" r="75%">
+        <stop offset="0%" stop-color="#101d3a"/><stop offset="60%" stop-color="#080d1a"/><stop offset="100%" stop-color="#05070d"/>
+      </radialGradient>
+      <linearGradient id="pg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="${shade(c1,40)}"/><stop offset="55%" stop-color="${c1}"/><stop offset="100%" stop-color="${shade(c1,-45)}"/>
+      </linearGradient>
+      <linearGradient id="pg2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${c2}"/><stop offset="100%" stop-color="${shade(c2,-50)}"/>
+      </linearGradient>
+      <filter id="glow"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <rect width="200" height="210" fill="url(#bg)"/>
+    <ellipse cx="100" cy="188" rx="52" ry="8" fill="rgba(255,201,51,.10)"/>
+    <g opacity=".14"><path d="M0 40 H200 M0 90 H200 M0 140 H200" stroke="#ffc933" stroke-width=".4"/></g>
+    <g filter="url(#glow)" transform="translate(${Math.sin(angle||0)*4} 0)">
+      <path d="${shape.split(' M')[0]}" fill="url(#pg)" stroke="rgba(255,201,51,.55)" stroke-width="1.4"/>
+      ${stroke}
+      <path d="${shape.split(' M')[0]}" fill="none" stroke="rgba(255,255,255,.22)" stroke-width=".7" transform="translate(2.5 2.5) scale(.976)"/>
+    </g>
+    <text x="100" y="204" text-anchor="middle" font-family="Arial,Helvetica" font-size="6.5" letter-spacing="3.5" fill="#8b96ab">BAIRG ATHLIC SPORT</text>
+  </svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+function P(id, cat, name, price, colors, sizes, shape, badge, desc){
+  return {id, cat, name, price, colors, sizes, shape, badge, desc,
+    desc: desc || 'Premium quality ' + CATEGORIES.find(c=>c.id===cat).name.toLowerCase() + ' by BAIRG ATHLIC SPORT. Designed for comfort, durability and everyday athletic style.'};
+}
+
+const PRODUCTS = [
+  P('ts1','tshirts','Velocity Performance Tee',1899,['#ffc933','#111318'],SIZES_APPAREL,'tshirt','NEW'),
+  P('ts2','tshirts','Core Cotton Tee',1499,['#e8ecf2','#101126'],SIZES_APPAREL,'tshirt'),
+  P('ts3','tshirts','Night Runner Tee',1699,['#2b3a67','#0a1020'],SIZES_APPAREL,'tshirt','HOT'),
+  P('tr1','trousers','Flex Track Trousers',2799,['#151a26','#2b3a67'],SIZES_APPAREL,'trousers','HOT'),
+  P('tr2','trousers','Urban Jogger Pants',2599,['#3a4256','#111318'],SIZES_APPAREL,'trousers'),
+  P('tr3','trousers','Trainer Slim Trousers',2399,['#232d47','#0a1020'],SIZES_APPAREL,'trousers'),
+  P('pj1','pajamas','Cloud Soft Pajama Set',2299,['#3d5a80','#101126'],SIZES_APPAREL,'pajamas'),
+  P('pj2','pajamas','Midnight Lounge Pajamas',2199,['#1b2432','#2b3a67'],SIZES_APPAREL,'pajamas','NEW'),
+  P('pj3','pajamas','Essential Sleep Set',1999,['#4a5568','#111318'],SIZES_APPAREL,'pajamas'),
+  P('hd1','hoodies','Apex Pullover Hoodie',3499,['#101623','#2b3a67'],SIZES_APPAREL,'hoodie','HOT'),
+  P('hd2','hoodies','Lime Strike Hoodie',3299,['#101126','#ffc933'],SIZES_APPAREL,'hoodie','NEW'),
+  P('hd3','hoodies','Street Base Hoodie',3099,['#232b3a','#3a4256'],SIZES_APPAREL,'hoodie'),
+  P('sh1','shorts','Sprint Active Shorts',1599,['#151a26','#ffc933'],SIZES_APPAREL,'shorts','HOT'),
+  P('sh2','shorts','Court Training Shorts',1499,['#232d47','#3a4256'],SIZES_APPAREL,'shorts'),
+  P('sh3','shorts','Leisure Knit Shorts',1399,['#1c2436','#2b3a67'],SIZES_APPAREL,'shorts'),
+  P('sk1','socks','Pro Cushion Sports Socks (3-Pack)',899,['#e8ecf2','#111318'],SIZES_SOCKS,'socks','HOT'),
+  P('sk2','socks','Terry Crew Hosiery (3-Pack)',799,['#232d47','#0a1020'],SIZES_SOCKS,'socks'),
+  P('sk3','socks','Ankle Trainer Socks (5-Pack)',999,['#151a26','#ffc933'],SIZES_SOCKS,'socks','NEW'),
+  P('cp1','caps','Icon Curve Cap',1199,['#111318','#ffc933'],SIZES_CAPS,'cap','HOT'),
+  P('cp2','caps','Trail Snap Cap',1099,['#2b3a67','#111318'],SIZES_CAPS,'cap'),
+  P('cp3','caps','Base Classic Cap',999,['#1c2436','#3a4256'],SIZES_CAPS,'cap'),
+  P('sw1','sweatshirts','Heritage Crew Sweatshirt',2999,['#232b3a','#111318'],SIZES_APPAREL,'sweatshirt','NEW'),
+  P('sw2','sweatshirts','Field Fleece Sweatshirt',2799,['#1f2b44','#2b3a67'],SIZES_APPAREL,'sweatshirt'),
+  P('sw3','sweatshirts','Everyday Soft Sweatshirt',2599,['#3a4256','#0a1020'],SIZES_APPAREL,'sweatshirt'),
+  P('pl1','polos','Ace Knit Polo',2299,['#101126','#ffc933'],SIZES_APPAREL,'polo','HOT'),
+  P('pl2','polos','Classic Court Polo',2099,['#232d47','#e8ecf2'],SIZES_APPAREL,'polo'),
+  P('pl3','polos','Prime Stretch Polo',2199,['#2b3242','#111318'],SIZES_APPAREL,'polo','NEW')
+];
+PRODUCTS.forEach(p => { p.art = productArt(p, 0); p.artAlt = productArt(p, 0.8); });
+
+const fmt = n => 'PKR ' + n.toLocaleString('en-US');
+
+/* ---------------- STATE ---------------- */
+let cart = JSON.parse(localStorage.getItem('bas_cart') || '[]');
+let wishlist = JSON.parse(localStorage.getItem('bas_wish') || '[]');
+
+/* Remove any previously saved jacket items after the category removal. */
+cart = cart.filter(item => PRODUCTS.some(p => p.id === item.id));
+wishlist = wishlist.filter(id => PRODUCTS.some(p => p.id === id));
+
+const save = () => { localStorage.setItem('bas_cart', JSON.stringify(cart)); localStorage.setItem('bas_wish', JSON.stringify(wishlist)); };
+const findP = id => PRODUCTS.find(p => p.id === id);
+save();
+
+function toast(msg){
+  const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; t.style.transition = '.4s'; setTimeout(()=>t.remove(), 400); }, 2200);
+}
+
+/* ---------------- CART ---------------- */
+function addToCart(id, color, size, qty){
+  const p = findP(id); if(!p) return;
+  color = color || p.colors[0]; size = size || p.sizes[0]; qty = qty || 1;
+  const key = id + '|' + color + '|' + size;
+  const ex = cart.find(i => i.key === key);
+  if(ex) ex.qty += qty; else cart.push({key, id, color, size, qty});
+  save(); updateCartUI(); toast('Added to cart — ' + p.name);
+}
+function updateCartUI(){
+  const count = cart.reduce((a,i)=>a+i.qty,0);
+  document.getElementById('cartCount').textContent = count;
+  const body = document.getElementById('cartBody'), foot = document.getElementById('cartFoot');
+  if(!cart.length){ body.innerHTML = '<div class="empty-note">YOUR CART IS EMPTY</div>'; foot.style.display='none'; return; }
+  foot.style.display='block';
+  body.innerHTML = cart.map(i => {
+    const p = findP(i.id);
+    return `<div class="cart-item">
+      <img src="${p.art}" alt="${p.name}">
+      <div class="ci-info">
+        <h4>${p.name}</h4>
+        <small>Color: <i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${i.color};border:1px solid #fff3"></i> &nbsp; Size: ${i.size}</small>
+        <div class="qty-row">
+          <button class="qty-btn" onclick="changeQty('${i.key}',-1)">−</button>
+          <span style="font-family:var(--f-sub);min-width:20px;text-align:center">${i.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${i.key}',1)">+</button>
+        </div>
+        <button class="remove-btn" onclick="removeItem('${i.key}')">Remove</button>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('cartSubtotal').textContent = count;
+}
+window.changeQty = (key, d) => { const it = cart.find(i=>i.key===key); if(!it) return; it.qty += d; if(it.qty < 1) cart = cart.filter(i=>i.key!==key); save(); updateCartUI(); };
+window.removeItem = key => { cart = cart.filter(i=>i.key!==key); save(); updateCartUI(); };
+
+/* ---------------- WISHLIST ---------------- */
+function toggleWish(id){
+  const on = wishlist.includes(id);
+  wishlist = on ? wishlist.filter(w=>w!==id) : [...wishlist, id];
+  save(); updateWishUI();
+  toast(on ? 'Removed from wishlist' : 'Saved to wishlist — ' + findP(id).name);
+}
+function updateWishUI(){
+  const body = document.getElementById('wishBody');
+  if(!wishlist.length){ body.innerHTML = '<div class="empty-note">YOUR WISHLIST IS EMPTY</div>'; return; }
+  body.innerHTML = wishlist.map(id => {
+    const p = findP(id);
+    return `<div class="cart-item">
+      <img src="${p.art}" alt="${p.name}">
+      <div class="ci-info">
+        <h4>${p.name}</h4>
+        <button class="add-btn" style="margin-top:10px" onclick="addToCart('${p.id}');toggleWish('${p.id}')">Move To Cart</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+window.toggleWish = toggleWish;
+
+/* ---------------- DRAWERS ---------------- */
+const overlay = document.getElementById('overlay');
+function openDrawer(el){ el.classList.add('show'); overlay.classList.add('show'); }
+function closeAll(){ document.querySelectorAll('.drawer,.modal,#searchOverlay').forEach(e=>e.classList.remove('show')); overlay.classList.remove('show'); }
+overlay.onclick = closeAll;
+document.getElementById('cartBtn').onclick = () => { updateCartUI(); openDrawer(document.getElementById('cartDrawer')); };
+document.getElementById('cartClose').onclick = closeAll;
+document.getElementById('wishBtn').onclick = () => { updateWishUI(); openDrawer(document.getElementById('wishDrawer')); };
+document.getElementById('wishClose').onclick = closeAll;
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeAll(); });
+
+/* ---------------- SEARCH ---------------- */
+const searchOverlay = document.getElementById('searchOverlay');
+document.getElementById('searchBtn').onclick = () => { searchOverlay.classList.add('show'); setTimeout(()=>document.getElementById('searchInput').focus(),100); renderSearch(''); };
+document.getElementById('searchClose').onclick = closeAll;
+document.getElementById('searchInput').addEventListener('input', e => renderSearch(e.target.value));
+function renderSearch(q){
+  q = q.trim().toLowerCase();
+  const res = q ? PRODUCTS.filter(p => (p.name + ' ' + p.cat).toLowerCase().includes(q)) : PRODUCTS.slice(0, 6);
+  document.getElementById('searchResults').innerHTML = res.length ? res.map(p =>
+    `<div class="sr-item" onclick="closeAll();openProductContact('${p.id}')">
+      <img src="${p.art}" alt="${p.name}"><div><h4>${p.name}</h4></div>
+    </div>`).join('') : '<div class="empty-note">NO PRODUCTS FOUND</div>';
+}
+
+/* ---------------- CARD BUILDERS ---------------- */
+function productCard(p){
+  const wished = wishlist.includes(p.id);
+  return `<div class="p-card reveal" onclick="openProductContact('${p.id}')">
+    ${p.badge ? `<span class="p-badge">${p.badge}</span>` : ''}
+    <div class="p-actions" onclick="event.stopPropagation()">
+      <button class="p-act ${wished?'wished':''}" onclick="toggleWish('${p.id}')" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" fill="${wished?'currentColor':'none'}" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+      </button>
+      <button class="p-act" onclick="openQuickView('${p.id}')" aria-label="Quick view">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <div class="p-img"><div class="p-float"><img src="${p.art}" alt="${p.name} — ${p.cat}" loading="lazy"></div></div>
+    <div class="p-info">
+      <span class="p-cat">${CATEGORIES.find(c=>c.id===p.cat).name}</span>
+      <h3 class="p-name">${p.name}</h3>
+      <div class="p-meta">
+        <span class="p-dots" style="margin-left:auto">${p.colors.slice(0,3).map(c=>`<i style="background:${c}"></i>`).join('')}</span>
+      </div>
+      <button class="add-btn" onclick="event.stopPropagation();addToCart('${p.id}')">Add To Cart</button>
+    </div>
+  </div>`;
+}
+
+function categoryCard(c){
+  const count = PRODUCTS.filter(p=>p.cat===c.id).length;
+  const art = SHAPES[{tshirts:'tshirt',trousers:'trousers',pajamas:'pajamas',hoodies:'hoodie',shorts:'shorts',socks:'socks',caps:'cap',sweatshirts:'sweatshirt',polos:'polo'}[c.id]];
+  return `<div class="cat-card reveal" onclick="location.hash='#/category/${c.id}'">
+    <div class="cat-art"><svg viewBox="0 0 200 200"><defs><linearGradient id="cg${c.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffc933"/><stop offset="100%" stop-color="#8a6414"/></linearGradient></defs><path d="${art.split(' M')[0]}" fill="url(#cg${c.id})" opacity=".92"/><path d="${art.split(' M')[0]}" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/></svg></div>
+    <div class="cat-info">
+      <div><h3>${c.name}</h3><small>${count} Products</small></div>
+      <span class="cat-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </div>
+  </div>`;
+}
+
+/* ---------------- QUICK VIEW ---------------- */
+window.openQuickView = function(id){
+  const p = findP(id);
+  let selColor = p.colors[0], selSize = p.sizes[0];
+  const box = document.getElementById('qvBox');
+  box.innerHTML = `
+    <button class="modal-close" onclick="closeAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:17px;height:17px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <div class="qv-grid">
+      <div class="qv-img"><img src="${p.art}" alt="${p.name}"></div>
+      <div class="qv-info">
+        <span class="p-cat">${CATEGORIES.find(c=>c.id===p.cat).name}</span>
+        <h3>${p.name}</h3>
+        <p class="qv-desc">${p.desc}</p>
+        <span class="opt-label">Color</span>
+        <div class="color-opts">${p.colors.map((c,i)=>`<span class="color-dot ${i===0?'sel':''}" data-c="${c}" style="background:${c}"></span>`).join('')}</div>
+        <span class="opt-label">Size</span>
+        <div class="size-opts">${p.sizes.map((s,i)=>`<span class="size-chip ${i===0?'sel':''}" data-s="${s}">${s}</span>`).join('')}</div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="qvAdd" style="flex:1;justify-content:center">Add To Cart</button>
+          <button class="btn btn-ghost" onclick="closeAll();location.hash='#/product/${p.id}'">Full Details</button>
+        </div>
+      </div>
+    </div>`;
+  box.querySelectorAll('.color-dot').forEach(d => d.onclick = () => { box.querySelectorAll('.color-dot').forEach(x=>x.classList.remove('sel')); d.classList.add('sel'); selColor = d.dataset.c; });
+  box.querySelectorAll('.size-chip').forEach(d => d.onclick = () => { box.querySelectorAll('.size-chip').forEach(x=>x.classList.remove('sel')); d.classList.add('sel'); selSize = d.dataset.s; });
+  document.getElementById('qvAdd').onclick = () => { addToCart(p.id, selColor, selSize, 1); closeAll(); };
+  document.getElementById('qvModal').classList.add('show');
+  overlay.classList.add('show');
+};
+
+/* ---------------- PRODUCT CONTACT OPTIONS ---------------- */
+window.openProductContact = function(id){
+  const p = findP(id);
+  const waMsg = WA_LINK;
+  const box = document.getElementById('qvBox');
+  box.innerHTML = `
+    <button class="modal-close" onclick="closeAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:17px;height:17px"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <div class="qv-grid">
+      <div class="qv-img"><img src="${p.art}" alt="${p.name}"></div>
+      <div class="qv-info" style="display:flex;flex-direction:column;justify-content:center">
+        <span class="p-cat">${CATEGORIES.find(c=>c.id===p.cat).name}</span>
+        <h3>${p.name}</h3>
+        <p class="qv-desc">Interested in this product? Contact BAIRG ATHLIC SPORT directly — our team will share the price, available colors and sizes right away.</p>
+        <div class="modal-actions" style="flex-direction:column;align-items:stretch">
+          <a class="btn" href="${waMsg}" target="_blank" rel="noopener" style="background:#25D366;color:#04120a;justify-content:center">Order On WhatsApp</a>
+          <a class="btn btn-ghost" href="${IG_LINK}" target="_blank" rel="noopener" style="justify-content:center">Message On Instagram</a>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('qvModal').classList.add('show');
+  overlay.classList.add('show');
+};
+
+/* ==================================================================
+   PAGES
+   ================================================================== */
+const app = document.getElementById('app');
+let heroScene = null, pdScene = null;
+let pageTweens = [];
+
+function trackPageTween(tween){
+  if(!tween) return;
+  pageTweens.push(tween);
+  if(tween.scrollTrigger) pageTweens.push(tween.scrollTrigger);
+}
+
+function killPageAnimations(){
+  [...pageTweens].forEach(item => { try{ item.kill(); }catch(err){} });
+  pageTweens = [];
+  ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+}
+
+function killScenes(){
+  if(heroScene){ cancelAnimationFrame(heroScene.raf); heroScene.renderer.dispose(); heroScene = null; }
+  if(pdScene){ cancelAnimationFrame(pdScene.raf); pdScene.renderer.dispose(); pdScene = null; }
+}
+
+function pageHome(){
+  const featured = PRODUCTS.filter(p => ['ts1','hd1','hd2','sk1','cp1','pl1','sh1','sw1'].includes(p.id));
+  return `
+  <section id="hero">
+    <div class="hero-grid-bg"></div>
+    <canvas id="heroCanvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-eyebrow reveal">Premium Sportswear &amp; Hosiery</div>
+      <h1 class="hero-title reveal">BAIRG <span class="neon">ATHLIC</span><br>SPORT</h1>
+      <div class="hero-sub reveal">Premium Sportswear &amp; Hosiery</div>
+      <p class="hero-tagline reveal">Wear Your Strength. Define Your Style. Engineered comfort for training, street and everything in between.</p>
+      <div class="hero-btns reveal">
+        <a class="btn btn-primary" href="#/home" data-scroll="products">Shop Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-ghost" href="#home-categories" onclick="event.preventDefault();document.getElementById('categories').scrollIntoView({behavior:'smooth'})">Explore Collection</a>
+      </div>
+    </div>
+    <div class="hero-hint"><span class="drag-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M8 12h8M8 12l3-3M8 12l3 3M16 12l-3-3M16 12l-3 3"/></svg></span>Drag to rotate 360°</div>
+    <div class="scroll-cue"><i></i></div>
+  </section>
+
+  <div class="marquee"><div class="marquee-track">
+    ${Array(2).fill('<span>T-Shirts <b>◆</b></span><span>Trousers <b>◆</b></span><span>Hoodies <b>◆</b></span><span>Shorts <b>◆</b></span><span>Socks <b>◆</b></span><span>Caps <b>◆</b></span><span>Sweatshirts <b>◆</b></span><span>Pajamas <b>◆</b></span><span>Polo Shirts <b>◆</b></span>').join('')}
+  </div></div>
+
+  <section id="categories"><div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-eyebrow">Collections</div>
+      <h2 class="sec-title">Shop By <span class="neon">Category</span></h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="cat-grid">${CATEGORIES.map(categoryCard).join('')}</div>
+  </div></section>
+
+  <section id="products" style="background:linear-gradient(180deg,var(--bg),#080d1a 60%,var(--bg))"><div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-eyebrow">Handpicked For You</div>
+      <h2 class="sec-title">Featured <span class="neon">Products</span></h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="prod-grid">${featured.map(productCard).join('')}</div>
+    <div style="text-align:center;margin-top:48px" class="reveal"><a class="btn btn-ghost" href="#/shop">View All Products</a></div>
+  </div></section>
+
+  <section id="about"><div class="wrap">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="orbit-ring" style="width:78%;height:78%"></div>
+        <div class="orbit-ring" style="width:92%;height:92%;animation-direction:reverse;animation-duration:34s"></div>
+        <img class="big-logo" src="logo.png" alt="BAIRG ATHLIC SPORT Logo" onerror="this.outerHTML='<div style=&quot;text-align:center&quot;><div style=&quot;font-family:var(--f-head);font-weight:900;font-size:1.6rem;letter-spacing:.2em&quot;>BAIRG <span style=&quot;color:var(--lime)&quot;>ATHLIC</span> SPORT</div><div style=&quot;font-family:var(--f-sub);letter-spacing:.5em;color:var(--muted);font-size:.7rem;margin-top:10px&quot;>PLACE logo.png HERE</div></div>'">
+      </div>
+      <div class="about-copy reveal">
+        <div class="sec-eyebrow">About Our Company</div>
+        <h2 class="sec-title">More Than Clothing.<br><span class="neon">It's Your Identity.</span></h2>
+        <p>BAIRG ATHLIC SPORT brings sportswear and everyday essentials together through comfort, style, and quality. Explore our collection of T-shirts, trousers, pajamas, hoodies, shorts, socks, caps, sweatshirts, and polo shirts.</p>
+        <p>Every piece is designed to move with you — from the track to the street, from early mornings to late nights.</p>
+        <div class="about-stats">
+          <div><b>9</b><span>Categories</span></div>
+          <div><b>25+</b><span>Products</span></div>
+          <div><b>100%</b><span>Comfort Focus</span></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+
+  <section id="contact"><div class="wrap">
+    <div class="sec-head reveal" style="text-align:center">
+      <div class="sec-eyebrow">We're Here To Help</div>
+      <h2 class="sec-title">Trust &amp; <span class="neon">Contact</span></h2>
+      <div class="sec-line" style="margin-left:auto;margin-right:auto"></div>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card reveal"><div class="trust-ic" style="color:var(--lime)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5ZM21 14h-3a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-5Z"/></svg></div><h4>Easy Communication</h4><p>Reach us instantly on WhatsApp, Instagram or email — quick, friendly responses to every inquiry.</p></div>
+      <div class="trust-card reveal"><div class="trust-ic" style="color:var(--lime)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg></div><h4>Product Quality</h4><p>Carefully selected fabrics and construction focused on comfort, fit and long-lasting wear.</p></div>
+      <div class="trust-card reveal"><div class="trust-ic" style="color:var(--lime)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div><h4>Convenient Ordering</h4><p>Browse the catalogue, pick your sizes, and confirm your order directly through WhatsApp chat.</p></div>
+      <div class="trust-card reveal"><div class="trust-ic" style="color:var(--lime)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><h4>Customer Support</h4><p>Questions about sizes, colors or availability? Our team is ready to assist you every day.</p></div>
+    </div>
+    <div class="contact-cta reveal">
+      <h3 style="font-family:var(--f-head);letter-spacing:.08em;font-size:1.1rem">GET IN TOUCH DIRECTLY</h3>
+      <div class="contact-row">
+        <a class="contact-pill wa" href="${WA_LINK}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.18-1.42-.07-.12-.27-.2-.57-.35m-5.48 7.45h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88a9.83 9.83 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.44c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.16-3.48-8.41z"/></svg>+92 344 6121833</a>
+        <a class="contact-pill ig" href="${IG_LINK}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>@bairg.athlic.sport</a>
+        <a class="contact-pill em" href="${EMAIL_LINK}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>bairgathlicsport@gmail.com</a>
+      </div>
+    </div>
+  </div></section>`;
+}
+
+function pageShop(filterCat){
+  return `<div class="page"><div class="page-head">
+    <div class="sec-eyebrow">${filterCat ? CATEGORIES.find(c=>c.id===filterCat).name : 'All Products'}</div>
+    <h2 class="sec-title">${filterCat ? CATEGORIES.find(c=>c.id===filterCat).name : 'Shop <span class="neon">Everything</span>'}</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="wrap" style="padding-top:20px">
+    <div class="shop-bar">
+      <div class="chip-row" id="chipRow">
+        <button class="chip ${!filterCat?'active':''}" data-cat="">All</button>
+        ${CATEGORIES.map(c=>`<button class="chip ${filterCat===c.id?'active':''}" data-cat="${c.id}">${c.name}</button>`).join('')}
+      </div>
+      <select class="sort-sel" id="sortSel">
+        <option value="feat">Sort: Featured</option>
+        <option value="name">Name: A to Z</option>
+      </select>
+    </div>
+    <div class="prod-grid" id="shopGrid"></div>
+  </div></div>`;
+}
+
+function pageProduct(id){
+  const p = findP(id); if(!p) return pageShop();
+  const related = PRODUCTS.filter(x=>x.cat===p.cat && x.id!==p.id).slice(0,4);
+  return `<div class="page"><div class="wrap" style="padding-top:30px">
+    <a class="pd-back" href="#/shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Back to Shop</a>
+    <div class="pd-grid">
+      <div class="pd-stage reveal" id="pdStage"><canvas id="pdCanvas"></canvas><div class="pd-drag-hint">Drag To Rotate 360°</div></div>
+      <div class="pd-info reveal">
+        <span class="p-cat">${CATEGORIES.find(c=>c.id===p.cat).name}${p.badge ? ' &nbsp;·&nbsp; <span style="color:var(--lime)">' + p.badge + '</span>' : ''}</span>
+        <h1>${p.name}</h1>
+        <p class="pd-desc">${p.desc}</p>
+        <span class="opt-label">Color</span>
+        <div class="color-opts" id="pdColors">${p.colors.map((c,i)=>`<span class="color-dot ${i===0?'sel':''}" data-c="${c}" style="background:${c}"></span>`).join('')}</div>
+        <span class="opt-label">Size</span>
+        <div class="size-opts" id="pdSizes">${p.sizes.map((s,i)=>`<span class="size-chip ${i===0?'sel':''}" data-s="${s}">${s}</span>`).join('')}</div>
+        <span class="opt-label">Quantity</span>
+        <div class="qty-row" style="margin-top:0">
+          <button class="qty-btn" id="pdMinus" style="width:34px;height:34px">−</button>
+          <span id="pdQty" style="font-family:var(--f-sub);font-size:1.1rem;min-width:30px;text-align:center">1</span>
+          <button class="qty-btn" id="pdPlus" style="width:34px;height:34px">+</button>
+        </div>
+        <div class="modal-actions" style="margin-top:18px">
+          <a class="btn" id="pdWA" target="_blank" rel="noopener" style="flex:1;justify-content:center;background:#25D366;color:#04120a">Order On WhatsApp</a>
+          <a class="btn btn-ghost" id="pdIG" target="_blank" rel="noopener" style="flex:1;justify-content:center">DM On Instagram</a>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="pdAdd" style="flex:1;justify-content:center">Add To Cart</button>
+          <button class="btn btn-ghost" id="pdWish">${wishlist.includes(p.id) ? '♥ Saved' : '♡ Wishlist'}</button>
+        </div>
+        <div class="co-note" style="margin-top:26px">Prices are available on request — contact us directly on WhatsApp or Instagram and we will share the current price, available colors and sizes right away.</div>
+      </div>
+    </div>
+    ${related.length ? `<div style="margin-top:90px"><div class="sec-head"><div class="sec-eyebrow">You May Also Like</div><h2 class="sec-title">Related <span class="neon">Products</span></h2><div class="sec-line"></div></div><div class="prod-grid">${related.map(productCard).join('')}</div></div>` : ''}
+  </div></div>`;
+}
+
+function pageCheckout(){
+  if(!cart.length) return `<div class="page"><div class="wrap" style="text-align:center;padding-top:60px"><div class="empty-note" style="padding:100px 0">YOUR CART IS EMPTY<br><br><a class="btn btn-primary" href="#/shop">Continue Shopping</a></div></div></div>`;
+  return `<div class="page"><div class="page-head">
+    <div class="sec-eyebrow">Almost There</div><h2 class="sec-title">Check<span class="neon">out</span></h2><div class="sec-line"></div>
+  </div><div class="wrap" style="padding-top:24px"><div class="co-grid">
+    <div>
+      <div class="field"><label>Full Name *</label><input id="coName" type="text" placeholder="Your full name"></div>
+      <div class="field"><label>Phone Number *</label><input id="coPhone" type="tel" placeholder="03XX XXXXXXX"></div>
+      <div class="field"><label>Delivery Address *</label><textarea id="coAddr" placeholder="House / street / city"></textarea></div>
+      <div class="field"><label>Order Notes (optional)</label><textarea id="coNotes" placeholder="Any color, size or delivery preferences"></textarea></div>
+    </div>
+    <div class="co-summary">
+      <h4>ORDER SUMMARY</h4>
+      ${cart.map(i => { const p = findP(i.id); return `<div class="co-line"><span>${p.name} × ${i.qty} (${i.size})</span></div>`; }).join('')}
+      <button class="co-wa-btn" id="coSend"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.18-1.42-.07-.12-.27-.2-.57-.35m-5.48 7.45h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88a9.83 9.83 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.44c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.16-3.48-8.41z"/></svg>Confirm Order Via WhatsApp</button>
+      <div class="co-note">No online payment is taken on this website. Pressing the button opens WhatsApp with a ready-to-send message addressed to BAIRG ATHLIC SPORT (+92 344 6121833), where your order will be confirmed directly with our team.</div>
+    </div>
+  </div></div></div>`;
+}
+
+function pageConfirm(order){
+  return `<div class="page"><div class="wrap"><div class="confirm-box">
+    <div class="confirm-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#ffc933" stroke-width="2.5" style="width:40px;height:40px"><path d="M20 6 9 17l-5-5"/></svg></div>
+    <h2>Order Details Prepared</h2>
+    <p>Thank you, <b style="color:var(--white)">${order.name}</b>. WhatsApp has been opened with a ready-to-send message addressed to BAIRG ATHLIC SPORT.<br><br>Please send the message there so our team can confirm availability, total price and delivery with you directly in the chat. No payment has been processed online.</p>
+    <div style="text-align:left;margin-top:26px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px">
+      ${order.lines.map(l=>`<div class="co-line"><span>${l}</span></div>`).join('')}
+    </div>
+    <a class="btn btn-primary" href="#/shop">Continue Shopping</a>
+  </div></div></div>`;
+}
+
+/* ==================================================================
+   THREE.JS — Hero scene & Product 360 viewer
+   ================================================================== */
+function initHeroScene(){
+  const canvas = document.getElementById('heroCanvas'); if(!canvas || !window.THREE) return;
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x05070d, 0.055);
+  const cam = new THREE.PerspectiveCamera(60, canvas.clientWidth/canvas.clientHeight, .1, 100);
+  cam.position.set(2.6, 0.4, 7);
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+  scene.add(new THREE.AmbientLight(0x223355, 1.2));
+  const l1 = new THREE.PointLight(0xffc933, 2.2, 30); l1.position.set(4, 3, 4); scene.add(l1);
+  const l2 = new THREE.PointLight(0x3366ff, 1.6, 30); l2.position.set(-5, -2, 3); scene.add(l2);
+
+  const group = new THREE.Group(); scene.add(group);
+  const core = new THREE.Mesh(new THREE.IcosahedronGeometry(1.15, 1), new THREE.MeshStandardMaterial({color:0x0d1526, metalness:.85, roughness:.25, emissive:0x2b1e00, emissiveIntensity:.6, wireframe:false, flatShading:true}));
+  group.add(core);
+  const wire = new THREE.Mesh(new THREE.IcosahedronGeometry(1.5, 1), new THREE.MeshBasicMaterial({color:0xffc933, wireframe:true, transparent:true, opacity:.35}));
+  group.add(wire);
+  const ring1 = new THREE.Mesh(new THREE.TorusGeometry(2.2, .02, 12, 90), new THREE.MeshBasicMaterial({color:0xffc933, transparent:true, opacity:.55}));
+  ring1.rotation.x = Math.PI/2.4; group.add(ring1);
+  const ring2 = ring1.clone(); ring2.material = new THREE.MeshBasicMaterial({color:0x88aaff, transparent:true, opacity:.3}); ring2.rotation.x = Math.PI/1.7; ring2.rotation.y = .6; group.add(ring2);
+
+  const shards = [];
+  for(let i=0;i<26;i++){
+    const s = new THREE.Mesh(new THREE.TetrahedronGeometry(.09 + Math.random()*.14), new THREE.MeshStandardMaterial({color: Math.random()>.5 ? 0xffc933 : 0x8fb5ff, metalness:.9, roughness:.2, emissive:0x332200, emissiveIntensity:.8}));
+    const a = Math.random()*Math.PI*2, r = 2.6 + Math.random()*3.5;
+    s.position.set(Math.cos(a)*r, (Math.random()-.5)*4, Math.sin(a)*r - 1);
+    s.userData = {a, r, sp:.15 + Math.random()*.35, y:s.position.y, ph:Math.random()*6};
+    shards.push(s); group.add(s);
+  }
+
+  const pg = new THREE.BufferGeometry(), pts = [];
+  for(let i=0;i<700;i++) pts.push((Math.random()-.5)*30, (Math.random()-.5)*18, (Math.random()-.5)*18 - 4);
+  pg.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+  const particles = new THREE.Points(pg, new THREE.PointsMaterial({color:0xffc933, size:.035, transparent:true, opacity:.5}));
+  scene.add(particles);
+
+  let targetRotY = 0, dragging = false, px = 0;
+  const down = e => { dragging = true; px = (e.touches ? e.touches[0].clientX : e.clientX); };
+  const move = e => { if(!dragging) return; const x = (e.touches ? e.touches[0].clientX : e.clientX); targetRotY += (x - px) * .008; px = x; };
+  const up = () => dragging = false;
+  canvas.addEventListener('mousedown', down); window.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
+  canvas.addEventListener('touchstart', down, {passive:true}); window.addEventListener('touchmove', move, {passive:true}); window.addEventListener('touchend', up);
+
+  let scrollP = 0;
+  ScrollTrigger.create({trigger:'#hero', start:'top top', end:'bottom top', onUpdate:s=>scrollP=s.progress});
+
+  const clock = new THREE.Clock();
+  function tick(){
+    const t = clock.getElapsedTime();
+    group.rotation.y += (targetRotY + t*.12 - group.rotation.y) * .06;
+    group.position.y = Math.sin(t*.8)*.15 - scrollP*2.2;
+    wire.rotation.x = t*.25; wire.rotation.z = t*.15;
+    core.rotation.y = -t*.2;
+    ring1.rotation.z = t*.3; ring2.rotation.z = -t*.22;
+    shards.forEach(s => { s.userData.a += s.userData.sp*.008; s.position.x = Math.cos(s.userData.a)*s.userData.r; s.position.z = Math.sin(s.userData.a)*s.userData.r - 1; s.position.y = s.userData.y + Math.sin(t + s.userData.ph)*.3; s.rotation.x = t*s.userData.sp; s.rotation.y = t*s.userData.sp*.7; });
+    particles.rotation.y = t*.015;
+    cam.position.y = .4 - scrollP*1.5;
+    renderer.render(scene, cam);
+    heroScene.raf = requestAnimationFrame(tick);
+  }
+  heroScene = {renderer, raf:null};
+  const onResize = () => { if(!document.body.contains(canvas)) { window.removeEventListener('resize', onResize); return; } cam.aspect = canvas.clientWidth/canvas.clientHeight; cam.updateProjectionMatrix(); renderer.setSize(canvas.clientWidth, canvas.clientHeight, false); };
+  window.addEventListener('resize', onResize);
+  tick();
+}
+
+function initPdScene(p){
+  const canvas = document.getElementById('pdCanvas'); if(!canvas || !window.THREE) return;
+  const stage = document.getElementById('pdStage');
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(45, stage.clientWidth/stage.clientHeight, .1, 50);
+  cam.position.set(0, 0, 5.2);
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(stage.clientWidth, stage.clientHeight, false);
+  scene.add(new THREE.AmbientLight(0xffffff, 1.1));
+  const pl = new THREE.PointLight(0xffc933, 1.4, 20); pl.position.set(3, 3, 4); scene.add(pl);
+  const pl2 = new THREE.PointLight(0x4466ff, .9, 20); pl2.position.set(-3, -2, 3); scene.add(pl2);
+
+  const tex = new THREE.TextureLoader().load(p.art); tex.minFilter = THREE.LinearFilter;
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(3.4, 3.57), new THREE.MeshBasicMaterial({map:tex, transparent:true, side:THREE.DoubleSide}));
+  const holder = new THREE.Group(); holder.add(mesh); scene.add(holder);
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(2.1, .015, 10, 80), new THREE.MeshBasicMaterial({color:0xffc933, transparent:true, opacity:.6}));
+  ring.rotation.x = Math.PI/2; ring.position.y = -1.9; holder.add(ring);
+  const disc = new THREE.Mesh(new THREE.CircleGeometry(1.6, 48), new THREE.MeshBasicMaterial({color:0x0d1526, transparent:true, opacity:.85}));
+  disc.rotation.x = -Math.PI/2; disc.position.y = -1.92; holder.add(disc);
+
+  let targetY = 0, dragging = false, px = 0, autoSpin = true;
+  const down = e => { dragging = true; autoSpin = false; px = (e.touches ? e.touches[0].clientX : e.clientX); };
+  const move = e => { if(!dragging) return; const x = (e.touches ? e.touches[0].clientX : e.clientX); targetY += (x - px) * .012; px = x; };
+  const up = () => dragging = false;
+  stage.addEventListener('mousedown', down); window.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
+  stage.addEventListener('touchstart', down, {passive:true}); window.addEventListener('touchmove', move, {passive:true}); window.addEventListener('touchend', up);
+
+  const clock = new THREE.Clock();
+  function tick(){
+    const t = clock.getElapsedTime();
+    if(autoSpin) targetY += .004;
+    holder.rotation.y += (targetY - holder.rotation.y) * .1;
+    holder.position.y = Math.sin(t*1.2)*.08;
+    ring.material.opacity = .4 + Math.sin(t*2)*.2;
+    renderer.render(scene, cam);
+    pdScene.raf = requestAnimationFrame(tick);
+  }
+  pdScene = {renderer, raf:null};
+  const onResize = () => { if(!document.body.contains(canvas)) { window.removeEventListener('resize', onResize); return; } cam.aspect = stage.clientWidth/stage.clientHeight; cam.updateProjectionMatrix(); renderer.setSize(stage.clientWidth, stage.clientHeight, false); };
+  window.addEventListener('resize', onResize);
+  tick();
+}
+
+/* ==================================================================
+   ROUTER
+   ================================================================== */
+let lastOrder = null;
+function route(){
+  closeAll();
+  const hash = location.hash || '#/home';
+  const parts = hash.replace('#/','').split('/');
+  killScenes();
+  killPageAnimations();
+  window.scrollTo({top:0});
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+
+  if(parts[0] === 'product' && findP(parts[1])){
+    const p = findP(parts[1]);
+    app.innerHTML = pageProduct(p.id);
+    initPdScene(p);
+    let qty = 1, color = p.colors[0], size = p.sizes[0];
+    const qEl = document.getElementById('pdQty');
+    document.getElementById('pdMinus').onclick = () => { qty = Math.max(1, qty-1); qEl.textContent = qty; };
+    document.getElementById('pdPlus').onclick = () => { qty++; qEl.textContent = qty; };
+    document.querySelectorAll('#pdColors .color-dot').forEach(d => d.onclick = () => { document.querySelectorAll('#pdColors .color-dot').forEach(x=>x.classList.remove('sel')); d.classList.add('sel'); color = d.dataset.c; });
+    document.querySelectorAll('#pdSizes .size-chip').forEach(d => d.onclick = () => { document.querySelectorAll('#pdSizes .size-chip').forEach(x=>x.classList.remove('sel')); d.classList.add('sel'); size = d.dataset.s; });
+    document.getElementById('pdAdd').onclick = () => addToCart(p.id, color, size, qty);
+    document.getElementById('pdWish').onclick = e => { toggleWish(p.id); e.target.textContent = wishlist.includes(p.id) ? '♥ Saved' : '♡ Wishlist'; };
+    document.getElementById('pdWA').href = WA_LINK;
+    document.getElementById('pdIG').href = IG_LINK;
+  }
+  else if(parts[0] === 'category'){
+    const cat = CATEGORIES.find(c=>c.id===parts[1]);
+    renderShop(cat ? cat.id : null);
+  }
+  else if(parts[0] === 'shop'){ renderShop(null); document.querySelector('[data-nav="shop"]')?.classList.add('active'); }
+  else if(parts[0] === 'checkout'){ app.innerHTML = pageCheckout(); bindCheckout(); }
+  else if(parts[0] === 'confirmation' && lastOrder){ app.innerHTML = pageConfirm(lastOrder); }
+  else {
+    app.innerHTML = pageHome();
+    document.querySelector('[data-nav="home"]')?.classList.add('active');
+    initHeroScene();
+  }
+  animateReveals();
+}
+
+function renderShop(filterCat){
+  app.innerHTML = pageShop(filterCat);
+  document.querySelector('[data-nav="shop"]')?.classList.add('active');
+  const grid = document.getElementById('shopGrid'), sel = document.getElementById('sortSel');
+  let cat = filterCat, sort = 'feat';
+  function draw(){
+    let list = cat ? PRODUCTS.filter(p=>p.cat===cat) : [...PRODUCTS];
+    if(sort==='low') list.sort((a,b)=>a.price-b.price);
+    if(sort==='high') list.sort((a,b)=>b.price-a.price);
+    if(sort==='name') list.sort((a,b)=>a.name.localeCompare(b.name));
+    grid.innerHTML = list.length ? list.map(productCard).join('') : '<div class="empty-note" style="grid-column:1/-1">NO PRODUCTS IN THIS CATEGORY YET</div>';
+    animateReveals();
+  }
+  document.getElementById('chipRow').addEventListener('click', e => {
+    const b = e.target.closest('.chip'); if(!b) return;
+    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); b.classList.add('active');
+    cat = b.dataset.cat || null; draw();
+  });
+  sel.onchange = () => { sort = sel.value; draw(); };
+  draw();
+}
+
+function bindCheckout(){
+  const btn = document.getElementById('coSend'); if(!btn) return;
+  btn.onclick = () => {
+    const name = document.getElementById('coName').value.trim();
+    const phone = document.getElementById('coPhone').value.trim();
+    const addr = document.getElementById('coAddr').value.trim();
+    if(!name || !phone || !addr){ toast('Please fill in name, phone and address'); return; }
+    const lines = cart.map(i => { const p = findP(i.id); return `${i.qty}× ${p.name} (${i.size}, color ${i.color})`; });
+    const total = 0;
+    lastOrder = {name, lines, total};
+    window.open(WA_LINK, '_blank');
+    cart = []; save(); updateCartUI();
+    location.hash = '#/confirmation';
+  };
+}
+
+/* ==================================================================
+   PREMIUM SCROLL ANIMATIONS
+   ================================================================== */
+function animateReveals(){
+  gsap.utils.toArray('.reveal').forEach((el, i) => {
+    let fromVars = {opacity:0, x:0, y:46, rotationX:0, rotationY:0};
+
+    if(el.classList.contains('cat-card')){
+      fromVars = {
+        opacity:0,
+        x:(i % 2 === 0 ? -58 : 58),
+        y:38,
+        rotationX:6,
+        rotationY:(i % 2 === 0 ? -7 : 7)
+      };
+    }else if(el.classList.contains('p-card')){
+      fromVars = {
+        opacity:0,
+        x:(i % 3 === 0 ? -38 : i % 3 === 2 ? 38 : 0),
+        y:56,
+        rotationX:5,
+        rotationY:0
+      };
+    }else if(el.classList.contains('trust-card')){
+      fromVars = {opacity:0, x:(i % 2 === 0 ? -68 : 68), y:32, rotationX:0, rotationY:0};
+    }else if(el.closest('.about-visual') || el.classList.contains('pd-stage')){
+      fromVars = {opacity:0, x:-72, y:0, rotationX:0, rotationY:0};
+    }else if(el.closest('.about-copy') || el.classList.contains('pd-info')){
+      fromVars = {opacity:0, x:72, y:0, rotationX:0, rotationY:0};
+    }
+
+    const tween = gsap.fromTo(el, fromVars, {
+      opacity:1,
+      x:0,
+      y:0,
+      rotationX:0,
+      rotationY:0,
+      duration:1.15,
+      ease:'power3.out',
+      delay:(i % 4) * .08,
+      overwrite:'auto',
+      clearProps:'transform',
+      scrollTrigger:{trigger:el, start:'top 90%', once:true}
+    });
+    trackPageTween(tween);
+  });
+
+  /* Product artwork gently zooms with scroll, then reverses naturally while scrolling upward. */
+  document.querySelectorAll('.p-card').forEach((card, i) => {
+    const img = card.querySelector('.p-img img');
+    const floater = card.querySelector('.p-float');
+
+    if(img){
+      const zoomTween = gsap.fromTo(img,
+        {scale:1.08},
+        {
+          scale:1,
+          ease:'none',
+          scrollTrigger:{trigger:card, start:'top bottom', end:'bottom top', scrub:.7}
+        }
+      );
+      trackPageTween(zoomTween);
+    }
+
+    /* Selected cards receive a restrained floating movement. */
+    if(floater && i % 4 === 1){
+      const floatTween = gsap.to(floater, {
+        y:-8,
+        duration:2.5 + (i % 3) * .25,
+        repeat:-1,
+        yoyo:true,
+        ease:'sine.inOut',
+        delay:.15
+      });
+      trackPageTween(floatTween);
+    }
+  });
+
+  /* Section accent lines draw in as each section enters the viewport. */
+  gsap.utils.toArray('.sec-line').forEach(line => {
+    const lineTween = gsap.fromTo(line,
+      {scaleX:.25, transformOrigin:'left center'},
+      {
+        scaleX:1,
+        duration:1,
+        ease:'power2.out',
+        scrollTrigger:{trigger:line, start:'top 92%', once:true}
+      }
+    );
+    trackPageTween(lineTween);
+  });
+
+  /* Hero content drifts smoothly while the 3D scene remains fully interactive. */
+  if(document.querySelector('.hero-content')){
+    const heroTween = gsap.to('.hero-content', {
+      yPercent:16,
+      opacity:.2,
+      ease:'none',
+      overwrite:'auto',
+      scrollTrigger:{trigger:'#hero', start:'top top', end:'bottom top', scrub:.8}
+    });
+    trackPageTween(heroTween);
+  }
+
+  ScrollTrigger.refresh();
+}
+
+/* ---------------- NAV / MENU / MISC ---------------- */
+window.addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', scrollY > 40));
+
+const hamburger = document.getElementById('hamburger'), mobileMenu = document.getElementById('mobileMenu');
+hamburger.onclick = () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); };
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hamburger.classList.remove('open'); mobileMenu.classList.remove('open'); }));
+
+/* Same-page smooth section navigation for desktop, mobile, and footer links. */
+document.addEventListener('click', e => {
+  const s = e.target.closest('[data-scroll]');
+  if(!s) return;
+
+  e.preventDefault();
+  const target = s.dataset.scroll;
+
+  const go = () => {
+    const section = document.getElementById(target);
+    if(section) section.scrollIntoView({behavior:'smooth', block:'start'});
+  };
+
+  if((location.hash || '#/home') !== '#/home'){
+    location.hash = '#/home';
+    setTimeout(go, 380);
+  }else{
+    go();
+  }
+});
+
+document.getElementById('goCheckout').onclick = () => { closeAll(); location.hash = '#/checkout'; };
+document.getElementById('qvModal').addEventListener('click', e => { if(e.target.id === 'qvModal') closeAll(); });
+
+window.addEventListener('hashchange', route);
+updateCartUI();
+
+/* ---------------- LOADER ---------------- */
+let lp = 0;
+const li = setInterval(() => {
+  lp = Math.min(100, lp + Math.random()*22);
+  document.getElementById('loaderFill').style.width = lp + '%';
+  if(lp >= 100){
+    clearInterval(li);
+    setTimeout(() => { document.getElementById('loader').classList.add('done'); route(); }, 350);
+  }
+}, 160);
+</script>
+</body>
+</html>
